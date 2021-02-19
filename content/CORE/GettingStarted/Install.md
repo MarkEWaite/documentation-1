@@ -57,6 +57,64 @@ The command to verify the checksum varies by operating system:
 
 The value produced by running the command must match the value shown in the `sha256.txt` file. Different checksum values indicate a corrupted installer file that should not be used.
 
+## Installing TrueNAS
+
+With the installer added to a device, you can now install TrueNAS onto the desired system.
+Insert the install media and reboot or boot the system.
+At the motherboard splash screen, use the hotkey defined by your motherboard manufacturer to boot into the motherboard UEFI/BIOS.
+
+Choose to boot in UEFI mode or legacy CSM/BIOS mode.
+When installing TrueNAS, make the matching choice for the installation.
+For Intel chipsets manufactured in 2020 or later, UEFI is likely the only option.
+
+If your system supports SecureBoot, you will need to either disable it or set it to "Other OS" to be able to boot the install media.
+
+Select the install device as the boot drive, exit, and reboot the system.
+If the USB stick is not shown as a boot option, try a different USB slot.
+Which slots are available for boot differs by hardware.
+
+After the system has booted into the installer, follow these steps.
+
+{{< imgproc InstallerConsoleSetup Fit "1920x1080" >}}
+Select <i>Install/Upgrade</i>.
+{{< /imgproc >}}
+
+{{< imgproc InstallerDestinationMedia Fit "1920x1080" >}}
+Select the desired install drive.
+{{< /imgproc >}}
+
+{{< imgproc InstallerEraseDisk Fit "1920x1080" >}}
+Select <i>Yes</i>
+{{< /imgproc >}}
+
+{{< imgproc InstallerUpgradeChoice Fit "1920x1080" >}}
+Select <i>Fresh Install</i> to do a clean install of the downloaded version of TrueNAS.
+<b>This will erase the contents of the selected drive</b>!
+{{< /imgproc >}}
+
+{{< imgproc InstallerSwapPartition Fit "1920x1080" >}}
+When the operating system device has enough additional space, you can choose to allocate some space for a swap partition to improve performance.
+{{< /imgproc >}}
+
+{{< imgproc InstallerRootPassword Fit "1920x1080" >}}
+Enter a password for the <code>root</code> user to log in to the web interface.
+{{< /imgproc >}}
+
+After following the steps to install, reboot the system and remove the install media.
+
+Congratulations!
+TrueNAS is now installed.
+
+The next steps are to either wait for the system to boot and [access the web interface](/hub/initial-setup/FirstTimeLogin/webuilogin/) or boot the system and configure the [console setup menu](/hub/initial-setup/FirstTimeLogin/cli-menu/).
+
+## Installation Troubleshooting
+
+If the system does not boot into TrueNAS, there are several things that can be checked to resolve the situation:
+
+* Check the system BIOS and see if there is an option to change the USB emulation from CD/DVD/floppy to hard drive. If it still will not boot, check to see if the card/drive is UDMA compliant.
+* If the system BIOS does not support EFI with BIOS emulation, see if it has an option to boot using legacy BIOS mode.
+* If the system starts to boot but hangs with this repeated error message: `run_interrupt_driven_hooks: still waiting after 60 seconds for xpt_config`, go into the system BIOS and look for an onboard device configuration for a `1394 Controller`. If present, disable that device and try booting again.
+* If the burned image fails to boot and the image was burned using a Windows system, wipe the USB stick before trying a second burn using a utility such as [Active@ KillDisk](https://www.killdisk.com/eraser.html). Otherwise, the second burn attempt will fail as Windows does not understand the partition which was written from the image file. Be very careful to specify the correct USB stick when using a wipe utility!
 
 
 
